@@ -1,7 +1,7 @@
 # HDB_Pricing
 
 
-## Dashbaord
+## Dashboard
 ### To view Dashboard run:
 streamlit run Home.py
 
