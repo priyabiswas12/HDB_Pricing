@@ -38,4 +38,4 @@ class GeoSpatial:
 
         
         sg["ave_price"] = sg["name"].map(price)
-        return sg.explore("ave_price", cmap="viridis",tiles="CartoDB positron")
+        return sg.explore("ave_price", cmap="RdBu_r",tiles="CartoDB positron")

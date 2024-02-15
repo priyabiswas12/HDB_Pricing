@@ -13,10 +13,12 @@ class Preprocess:
     def process_resale(self, df):
 
         df["month"] = pd.to_datetime(df["month"])
+        df["year"]=df['month'].apply(lambda elem: elem.year)
         df['month'] = df['month'].dt.to_period('M')
         df['price_per_sqm'] = df['resale_price'] / df['floor_area_sqm']
         df["flat_type"]=df["flat_type"].replace({'MULTI GENERATION': 'MULTI-GENERATION'})
-        df['age'] = datetime.now().year -  df['lease_commence_date']
+        df['remaining_lease'] = (99 + df['lease_commence_date']) - df['year']
+    
         df.rename(columns={'resale_price': 'price'}, inplace=True)
 
         return df

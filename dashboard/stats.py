@@ -48,8 +48,13 @@ class Stats:
  
     
 
-    def get_piechart_ft(self,df,others_ls):
-        flat_types = dict(df['flat_type'].value_counts())
+    def get_piechart_ft(self,df,others_ls,region):
+        if region == "ENTIRE SINGAPORE":
+            r_df=df
+        else:
+            r_df=df[df['town']== region]
+            
+        flat_types = dict(r_df['flat_type'].value_counts())
 
         def get_others(dic, key):
             x=dic.get(key)
@@ -57,6 +62,7 @@ class Stats:
                 return 0
             else:
                 return x
+        
             
         combined=0
         for ot in others_ls:
@@ -74,5 +80,24 @@ class Stats:
         ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
         return (fig1)
+    
+    
+
+    def pricevlease(self, df):
+        g = sns.FacetGrid(df, col="town", col_wrap=5)
+        g.map(sns.scatterplot, "remaining_lease","price",alpha=0.5)
+        g.add_legend()
+        return g
+    
+
+
+    def pricevdist(self, df):
+        g = sns.FacetGrid(df, col="town", col_wrap=3)
+        g.map(sns.scatterplot, "mrt_dist","price",alpha=0.5)
+        g.add_legend()
+        return g
+
+
+
 
         

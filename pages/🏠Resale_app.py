@@ -101,6 +101,12 @@ with col[1]:
     st.pyplot(splot4)
 
 
+    st.markdown('#### Distribution of Price vs Remaining Lease')
+    splot6 = s.pricevlease(new_df)
+    st.pyplot(splot6)
+    
+
+
 
 
 
@@ -128,9 +134,13 @@ with col[2]:
 
     st.markdown('#### Percentage of Flat Types Sold')
     others=["2 ROOM", "1 ROOM", "MULTI-GENERATION"]
-    splot5 = s.get_piechart_ft(new_df,others)
+    region2 = list(new_df.town.unique())
+    region2.insert(0,  "ENTIRE SINGAPORE")
+    selected_region2= st.selectbox('Select a Town', region2)
+    splot5 = s.get_piechart_ft(new_df,others, selected_region2)
     st.pyplot(splot5)
     
+
 
 
 
