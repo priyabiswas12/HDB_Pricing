@@ -75,11 +75,18 @@ with col[0]:
     choropleth = g.make_chloropleth(new_df,resale_areas)
     st_folium(choropleth,width=700, height=400)
 
-    st.markdown('#### Average Price of Chosen Flat Type')
+    st.markdown('#### Price/sqm of Chosen Flat Type')
+    #st.markdown('#### Flat Type overview')
+    #st.markdown('#### Average Rental Price of Chosen Flat Type')
     flat_type_ls= [ '3 ROOM', '4 ROOM', '5 ROOM', '2 ROOM','1 ROOM' ,'EXECUTIVE', 'MULTI-GENERATION']
     selected_ft= st.selectbox('Select a Flat Type', flat_type_ls)
     choropleth_price=g.make_chloropleth_price(new_df,resale_areas,selected_ft)
     st_folium(choropleth_price,width=700, height=400)
+
+    s= Stats()
+    #st.markdown('#### Price Distribution of Chosen Flat Type')
+    splot6 = s.pricevloc_box(new_df,selected_ft)
+    st.pyplot(splot6)
 
 
 
@@ -88,22 +95,35 @@ with col[0]:
 resale_ft= ['1 ROOM', '3 ROOM', '4 ROOM', '5 ROOM', '2 ROOM', 'EXECUTIVE','MULTI-GENERATION']
 
 with col[1]:
-    st.markdown('#### Pricing Stats')
-    s= Stats()
+    st.markdown('#### Pricing Overview')
+    
     splot2 = s.pricevsmonth(new_df,resale_ft)
     st.pyplot(splot2)
 
 
-    st.markdown('#### Town-specific Price Trend')
+
+    st.markdown('#### Town-specific Resale Price Trend')
     region = list(new_df.town.unique())
     selected_region= st.selectbox('Select a Town', region)
     splot4 = s.pvm_region(new_df,resale_ft,selected_region)
     st.pyplot(splot4)
 
 
+
     st.markdown('#### Distribution of Price vs Remaining Lease')
     splot6 = s.pricevlease(new_df)
     st.pyplot(splot6)
+
+
+
+    
+  
+
+
+    
+
+
+    
     
 
 
@@ -112,6 +132,8 @@ with col[1]:
 
 
 with col[2]:
+
+
     st.markdown('#### Top Model Types')
     df2 = new_df["flat_model"].value_counts().rename_axis('flat_model').to_frame('counts')
 
@@ -130,7 +152,8 @@ with col[2]:
                         max_value=max(df2.counts),
                     )}
                 )
-    
+
+
 
     st.markdown('#### Percentage of Flat Types Sold')
     others=["2 ROOM", "1 ROOM", "MULTI-GENERATION"]
@@ -139,6 +162,12 @@ with col[2]:
     selected_region2= st.selectbox('Select a Town', region2)
     splot5 = s.get_piechart_ft(new_df,others, selected_region2)
     st.pyplot(splot5)
+  
+
+    
+
+    
+
     
 
 

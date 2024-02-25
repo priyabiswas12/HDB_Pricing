@@ -72,13 +72,20 @@ with col[0]:
     st.markdown('#### Number of Total Rentals Between {} to {}'.format(start_format, end_format))
     g= GeoSpatial()
     choropleth = g.make_chloropleth(new_df,rental_areas)
-    st_folium(choropleth,width=700, height=400)
+    st_folium(choropleth,width=700, height=400)  
 
+  
     st.markdown('#### Average Rental Price of Chosen Flat Type')
+    #st.markdown('#### Flat Type overview')
     flat_type_ls= [ '3-ROOM', '4-ROOM', '5-ROOM', '2-ROOM','1-ROOM' ,'EXECUTIVE']
     selected_ft= st.selectbox('Select a Flat Type', flat_type_ls)
-    choropleth_price=g.make_chloropleth_price(new_df,rental_areas,selected_ft)
+    choropleth_price=g.make_chloropleth_price_rental(new_df,rental_areas,selected_ft)
     st_folium(choropleth_price,width=700, height=400)
+
+    s= Stats()
+    #st.markdown('#### Price Distribution of Chosen Flat Type')
+    splot6 = s.pricevloc_box(new_df,selected_ft)
+    st.pyplot(splot6)
 
 
 
@@ -87,8 +94,8 @@ with col[0]:
 rental_ft= ['1-ROOM', '3-ROOM', '4-ROOM', '5-ROOM', '2-ROOM', 'EXECUTIVE']
 
 with col[1]:
-    st.markdown('#### Pricing Stats')
-    s= Stats()
+    st.markdown('#### Pricing Overview')
+    
     splot2 = s.pricevsmonth(new_df,rental_ft)
     st.pyplot(splot2)
 
@@ -98,6 +105,8 @@ with col[1]:
     selected_region= st.selectbox('Select a Town', region)
     splot4 = s.pvm_region(new_df,rental_ft,selected_region)
     st.pyplot(splot4)
+
+
 
 
     
@@ -114,6 +123,11 @@ with col[2]:
     selected_region2= st.selectbox('Select a Town', region2)
     splot5 = s.get_piechart_ft(new_df,others,selected_region2)
     st.pyplot(splot5)
+
+
+
+    
+   
 
 
 

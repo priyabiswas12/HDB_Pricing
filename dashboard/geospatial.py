@@ -34,8 +34,24 @@ class GeoSpatial:
         sg.reset_index(drop=True, inplace=True)
 
         flat = df[df["flat_type"] == room_type]
+        price=dict(flat.groupby(flat['town'])["price_per_sqm"].mean().round(0))
+
+        
+        #sg["ave_price"] = sg["name"].map(price)
+        #return sg.explore("ave_price", cmap="RdBu_r",tiles="CartoDB positron")
+        sg["pps"] = sg["name"].map(price)
+        return sg.explore("pps", cmap="RdBu_r",tiles="CartoDB positron")
+    
+
+    def make_chloropleth_price_rental(self, df,area,room_type):
+        sg_geojson=geopandas.read_file('./data/regions.geojson')
+        sg=(sg_geojson.loc[sg_geojson['name'].isin(area)])
+        sg.reset_index(drop=True, inplace=True)
+
+        flat = df[df["flat_type"] == room_type]
         price=dict(flat.groupby(flat['town'])["price"].mean().round(0))
 
         
         sg["ave_price"] = sg["name"].map(price)
         return sg.explore("ave_price", cmap="RdBu_r",tiles="CartoDB positron")
+       

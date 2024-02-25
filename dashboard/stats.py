@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+import warnings
 
 
 
@@ -53,7 +54,7 @@ class Stats:
             r_df=df
         else:
             r_df=df[df['town']== region]
-            
+
         flat_types = dict(r_df['flat_type'].value_counts())
 
         def get_others(dic, key):
@@ -95,6 +96,16 @@ class Stats:
         g = sns.FacetGrid(df, col="town", col_wrap=3)
         g.map(sns.scatterplot, "mrt_dist","price",alpha=0.5)
         g.add_legend()
+        return g
+    
+
+    def pricevloc_box(self, df,room_type):
+        warnings.filterwarnings('ignore')
+        flat = df[df["flat_type"] == room_type]
+        g= sns.catplot(data=flat,x='town',y='price',kind='box',aspect=1.5)
+        
+        g.set_xticklabels(rotation=90)
+        g.figure.suptitle("Price Distribution of Chosen Flat Type",fontsize=15)
         return g
 
 
